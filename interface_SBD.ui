@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>717</width>
+    <height>340</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Russo One</family>
+    <pointsize>11</pointsize>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Simulation Breaking Distance</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Define parameters:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>70</y>
+      <width>131</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mass [x1000kg]:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>100</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Velocity [m/s]:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>130</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Road type:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>160</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Road condition:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>190</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Inclination [%]:</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="mass_value">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>70</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="maximum">
+     <double>250.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="velocity_value">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>100</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="maximum">
+     <double>250.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="road_type">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>130</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>concrete</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ice</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>water</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>gravel</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>sand</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="road_condition">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>160</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>wet</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>dry</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>aquaplaning</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QSpinBox" name="spinBox">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>190</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+    <property name="maximum">
+     <number>45</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="simulate_button">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>240</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SIMULATION</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clear_button">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>240</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CLEAR</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="export_button">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>240</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>EXPORT</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
