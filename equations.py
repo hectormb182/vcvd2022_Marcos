@@ -1,22 +1,9 @@
-gravity = 9.81  # [m/s^2]
+import math
+
+gravity = 9.81  # [m/s**2]
 
 
-# Get final position function
-# if the vehicle must stop => kinetic energy must be equal to friction energy
-# Wf = Friction_energy * (final_position - initial_position) =
-# = friction_coefficient * mass * gravity * (final_position - initial_position)
-# Wk = (mass * velocity_initial^2) / 2
-# Wf = Wk => final_position = ((velocity_initial^2) / 2 * gravity * friction_coefficient) + initial_position
-def get_final_pos(v_i, f_c, p_i):
-    p_f = ((v_i * v_i) / (2 * gravity * f_c)) + p_i
-    return p_f
-
-
-def get_break_time(p_f, p_i, v_i):
-    t = (p_f - p_i) / (1.5 * v_i)
-    return t
-
-
+# send the friction coefficient
 def get_friction_coefficient(road, condition):
     if road == "concrete" and condition == "dry":
         return 0.5
@@ -32,31 +19,23 @@ def get_friction_coefficient(road, condition):
         return 0.35
     elif road == "sand" and condition == "dry":
         return 0.3
+    else:
+        return 0
 
 
-# Physic formulas:
-def get_friction_force(mass, friction_coefficient):
-    f_r = friction_coefficient * mass * gravity
-    return f_r
+# Calculate de deceleration => Total Force = mass * acc => - F_friction = mass * acc =>
+# -mu * gravity (* inclination) = acc
+def get_deceleration(friction_coefficient, inclination):
+    inclination = math.radians(inclination)
+    dec = -1 * friction_coefficient * gravity * (math.cos(inclination) + math.sin(inclination))
+    return round(dec, 2)
 
 
-def get_velocity(time, v_i, acceleration):
-    v_f = (time * acceleration) + v_i
-    return v_f
+def get_position(time, pos_initial, velocity, acc):
+    pos_final = pos_initial + velocity * time + (0.5 * acc * time ** 2)
+    return round(pos_final, 2)
 
 
-def get_acceleration(time, v_f, v_i):
-    a = (v_f - v_i) / time
-    return a
-
-
-def get_position(time, position_initial, velocity, acceleration):
-    position_final = position_initial + velocity * time + (0.5 * acceleration * time ** 2)
-    return position_final
-
-
-# Conservation of energy formulas
-def get_kinetic_energy(mass, velocity):
-    w_kin = (mass * velocity) * 0.5
-    return w_kin
-
+def get_velocity(vel_initial, acc, time,):
+    vel_final = (time * acc) + vel_initial
+    return round(vel_final, 2)
