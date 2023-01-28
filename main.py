@@ -51,12 +51,24 @@ class MyInterface(QMainWindow):
         # adding action to export button
         self.export_button.clicked.connect(self.export_plot)
 
+    def initialize_parameters(self):
+        # initialize parameters to recalculate a new brake distance
+        self.times = [0.0]
+        self.positions = [0.0]
+        self.velocities = []
+        self.deceleration = 0.0
+        self.road_inclination = 0.0
+        self.position_plot.clear()
+        self.velocity_plot.clear()
+        self.brake_distance_box.setValue(0)
+        self.brake_time_box.setValue(0)
+
     def simulate(self):
         self.initialize_parameters()  # initialize parameters
 
         # assign user-parameters to the attributes
         self.vehicle_mass = self.mass_value.value()
-        self.velocities.append((self.velocity_value.value() * 1000) / 3600)  # change velocity into in m/s
+        self.velocities.append(round(self.velocity_value.value() * 1000 / 3600, 2))  # change velocity into in m/s
         self.road_type = self.road_type_value.currentText()
         self.road_condition = self.road_condition_value.currentText()
         self.road_inclination = self.inclination_value.value()
@@ -66,8 +78,7 @@ class MyInterface(QMainWindow):
             self.simulation_button.setEnabled(False)
             self.break_button.setEnabled(True)
             self.export_button.setEnabled(False)
-            # start clock
-            self.timer.start()
+            self.timer.start()  # start clock
 
         else:
             msg = QMessageBox()
@@ -77,27 +88,25 @@ class MyInterface(QMainWindow):
             msg.exec_()
 
     def update_plot(self):
-        self.pos_vel_calculus()
-        # plot positions and velocities against time
-        self.position_plot.plot(self.times, self.positions)  # plot time vs position
-        self.velocity_plot.plot(self.times, self.velocities)  # plot time vs velocity
-
-        if self.velocities[-1] <= 0.0:
-            self.timer.stop()  # stop sample clock
-            # show brake parameters on the interface
-            self.brake_distance_box.setValue(self.positions[-1] - self.initial_b_p)
-            self.brake_time_box.setValue(self.times[-1] - self.initial_b_t)
-
-    def pos_vel_calculus(self):
         # calculate next time to sample
         self.times.append(self.times[-1] + self.sample_time)
 
         # get current position and add into an array of positions to plot it afterwards
-        self.positions.append(formulas.get_position(self.sample_time, self.positions[-1], self.velocities[-1],
-                                                    self.deceleration))
+        self.positions.append(formulas.get_position(self.positions[-1], self.velocities[-1], self.deceleration,
+                                                    self.sample_time, ))
 
         # get the current velocity and # add into an array of velocities to plot it afterwards
         self.velocities.append(formulas.get_velocity(self.velocities[-1], self.deceleration, self.sample_time))
+
+        # plot positions and velocities against time
+        self.position_plot.plot(self.times, self.positions)  # plot time vs position
+        self.velocity_plot.plot(self.times, self.velocities)  # plot time vs velocity
+
+        if self.velocities[-1] <= 0.0:  # vehicle has stopped
+            self.timer.stop()  # stop sample clock
+            # show brake parameters on the interface
+            self.brake_distance_box.setValue(self.positions[-1] - self.initial_b_p)
+            self.brake_time_box.setValue(self.times[-1] - self.initial_b_t)
 
     def press_break(self):
         # enable/disable buttons
@@ -111,7 +120,7 @@ class MyInterface(QMainWindow):
         self.deceleration = formulas.get_deceleration(f_c, self.road_inclination)
 
         # set a vertical line to delimit the starting brake point
-        self.initial_b_t = self.times[-1]  # set intial brake time
+        self.initial_b_t = self.times[-1]  # set initial brake time
         brake_time = pg.InfiniteLine(self.initial_b_t, pen=({'color': [255, 0, 0, 100], 'width': 2.5}))
         self.initial_b_p = self.positions[-1]  # set initial brake position
         brake_pos = pg.InfiniteLine(self.initial_b_p, angle=0, pen=({'color': [255, 0, 0, 100], 'width': 2.5}))
@@ -122,18 +131,6 @@ class MyInterface(QMainWindow):
 
     def clear_plot(self):
         self.initialize_parameters()
-
-    def initialize_parameters(self):
-        # initialize parameters to recalculate a new brake distance
-        self.positions = [0.0]
-        self.times = [0.0]
-        self.velocities = []
-        self.deceleration = 0.0
-        self.road_inclination = 0.0
-        self.position_plot.clear()
-        self.velocity_plot.clear()
-        self.brake_distance_box.setValue(0)
-        self.brake_time_box.setValue(0)
 
     def export_plot(self):
         brake_distance = exporters.ImageExporter(self.position_plot.plotItem)

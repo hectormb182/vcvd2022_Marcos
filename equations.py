@@ -31,7 +31,7 @@ def get_deceleration(friction_coefficient, inclination):
     return round(dec, 2)
 
 
-def get_position(time, pos_initial, velocity, acc):
+def get_position(pos_initial, velocity, acc, time,):
     pos_final = pos_initial + velocity * time + (0.5 * acc * time ** 2)
     return round(pos_final, 2)
 
